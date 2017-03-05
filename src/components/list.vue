@@ -8,7 +8,7 @@
 	  			<img :src="item.cover" v-if="item.cover">
           <div class="project-operate">
             <div class="project-operate__item"> 
-              <i class="iconfont icon-eye"></i>
+              <i class="iconfont icon-eye" @click="previewProject(item)"></i>
               预览
             </div>
             <div class="project-operate__item" v-if="user" @click="copyProject(item)"> 
@@ -38,6 +38,10 @@
 				@change="projectList">
 			</ui-pagination>
   	</div>
+    <preview 
+      v-model="preview.visible"
+      :data="preview.data">
+    </preview>
   </div>
 </template>
 
@@ -45,11 +49,12 @@
 	import * as types from 'store/types'
 	import { mapState } from 'vuex'
 	import { uiPagination } from 'ui'
-	import axios from 'axios'
+  import preview from './preview'
 
   export default {
   	components: {
-  		uiPagination
+  		uiPagination,
+      preview
   	},
   	computed: {
   		...mapState(['user', 'cacheList']),
@@ -101,11 +106,25 @@
   		},
       projectTitle(item) {
         return item.title || `未命名${item.id}`
+      },
+      previewProject(item) {
+        this.preview.visible = true
+        this.preview.data.title = this.projectTitle(item)
       }
   	},
   	async created() {
 			this.projectList()  		
-  	}
+  	},
+    data() {
+      return {
+        preview: {
+          visible: false,
+          data: {
+            title: ''
+          }
+        }
+      }
+    }
   }
 </script>
 

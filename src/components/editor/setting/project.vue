@@ -28,20 +28,65 @@
 				@input="setProject('desc', $event)">
 			</ui-input>
   	</div>
+
+  	<hr>
+
+  	<div class="properties__item">
+      <ui-row>
+        <ui-col :span="6">滑动方向</ui-col>
+        <ui-col :span="18">
+        	<ui-button-group>
+        		<ui-button 
+	      			v-for="direction in slideDirections"
+	      			v-text="direction.label"
+	      			:type="direction.value === h5app.extends.direction ? 'primary' : 'default'"
+	      			@click="setProjectExtends('direction', direction.value)">
+	      		</ui-button>
+        	</ui-button-group>
+        </ui-col>
+      </ui-row>
+    </div>
+
+  	<div class="properties__item">
+      <ui-row>
+        <ui-col :span="6">切换效果</ui-col>
+        <ui-col :span="18">
+        	<ui-select :options="changeEffects" :value="h5app.extends.effect"></ui-select>
+        </ui-col>
+      </ui-row>
+    </div>
+  
+    <div class="properties__item">
+      <ui-row>
+        <ui-col :span="6">循环播放</ui-col>
+        <ui-col :span="18">
+        	<ui-button-group>
+        		<ui-button 
+        			v-for="loop in loopOptions"
+        			v-text="loop.label"
+        			:type="loop.value === h5app.extends.loop ? 'primary' : 'default'"
+        			@click="setProjectExtends('loop', loop.value)">
+        		</ui-button>
+        	</ui-button-group>
+        </ui-col>
+      </ui-row>
+    </div>
   </div>
 </template>
 
 <script>
 	import * as types from 'store/types'
 	import { mapState } from 'vuex'
-	import { uiRow, uiCol, uiButton, uiInput } from 'ui'
+	import { uiRow, uiCol, uiButton, uiInput, uiSelect, uiButtonGroup } from 'ui'
 
   export default {
   	components: {
   		uiRow,
   		uiCol,
   		uiButton,
-  		uiInput
+  		uiButtonGroup,
+  		uiInput,
+  		uiSelect
   	},
   	computed: {
   		...mapState(['h5app'])
@@ -57,6 +102,33 @@
   			this.$store.commit(types.SET_PROJECT, {
   				[key]: value
   			})
+  		},
+  		setProjectExtends(key, value) {
+  			this.$store.commit(types.SET_PROJECT_EXTENDS, {
+  				[key]: value
+  			})
+  		}
+  	},
+  	data() {
+  		return {
+  			changeEffects: [{
+  				value: 'scroll',
+  				label: '默认'
+  			}],
+  			slideDirections: [{
+  				value: 'vertical',
+  				label: '垂直'
+  			}, {
+  				value: 'horizontal',
+  				label: '水平'
+  			}],
+  			loopOptions: [{
+  				value: true,
+  				label: '是'
+  			}, {
+  				value: false,
+  				label: '否'
+  			}]
   		}
   	}
   }

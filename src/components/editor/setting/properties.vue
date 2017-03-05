@@ -15,7 +15,7 @@
 		        <ui-number 
 		        	unit="px"
 		        	:value="style.fontSize" 
-		        	:min="20" 
+		        	:min="16" 
 		        	:max="100"
 		        	@input="setWidgetStyle('fontSize', $event)">
 	        	</ui-number>

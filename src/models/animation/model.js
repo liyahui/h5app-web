@@ -1,7 +1,7 @@
 export default {
   name: '',
   duration: 1,
-  timing: 'linear',
+  timing: 'ease',
   delay: 0,
   count: 1,
 

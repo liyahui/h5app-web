@@ -24,6 +24,7 @@
       </ui-row>
     </div>
     <div class="animations__body">
+      
       <animations-item 
         v-for="value, index in animations"
         :value="value"
@@ -34,6 +35,9 @@
         @open="openAnimation(index)"
         @delete="deleteAnimation(index)">
       </animations-item>
+      <div class="animations__tips">
+         * 次数填写0次为循环播放
+      </div>
     </div>
   </div>
 </template>
@@ -140,6 +144,10 @@
       padding: 10px 15px;
       border-top: 1px solid $borderColor;
       background: lighten($borderColor, 5%);
+    }
+
+    @include E(tips) {
+      color: $gray;
     }
   }
 </style>

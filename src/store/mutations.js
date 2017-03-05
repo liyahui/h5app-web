@@ -271,6 +271,14 @@ const mutations = {
     }
   },
 
+  // 设置项目扩展属性
+  [types.SET_PROJECT_EXTENDS](state, payload) {
+    state.h5app.extends = {
+      ...state.h5app.extends,
+      ...payload
+    }
+  },
+
   // 重置项目
   [types.RESET_PROJECT](state) {
     state.pageID = 0
@@ -313,7 +321,6 @@ const mutations = {
   [types.UPDATE_CACHE_LIST](state, { type, item }) {
     const data = state.cacheList[type]
     const index = data.cache.findIndex(cache => cache && cache.id === item.id)
-    console.log(index, item)
     index !== -1 && data.cache.splice(index, 1, item)
   },
 

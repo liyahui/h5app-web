@@ -58,6 +58,9 @@ export default {
     let params = {}
     if (payload && payload.item) {
       params.id = payload.item.id
+    } else {
+      params.pages = state.h5app.pages
+      params.extends = state.h5app.extends
     }
 
     const res = await axios.post('projects', params)
@@ -111,7 +114,8 @@ export default {
       desc: state.h5app.desc,
       icon: state.h5app.desc,
       cover: cover,
-      pages: state.h5app.pages
+      pages: state.h5app.pages,
+      extends: state.h5app.extends
     }
 
     const res = await axios.put(`projects/${state.h5app.id}`, item)

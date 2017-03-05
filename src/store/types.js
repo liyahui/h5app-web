@@ -39,6 +39,7 @@ export const GET_PROJECT = 'GET_PROJECT'
 export const SAVE_PROJECT = 'SAVE_PROJECT'
 export const DELETE_PROJECT = 'DELETE_PROJECT'
 export const RESET_PROJECT = 'RESET_PROJECT'
+export const SET_PROJECT_EXTENDS = 'SET_PROJECT_EXTENDS'
 
 // 缓存列表
 export const GET_CACHE_LIST = 'GET_CACHE_LIST'

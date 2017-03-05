@@ -175,17 +175,20 @@
     data() {
     	return {
     		timingOptions: [{
+          value: 'ease',
+          label: '默认'
+        }, {
           value: 'linear',
-          label: '无'
+          label: '匀速'
         }, {
           value: 'ease-in',
-          label: '抹入'
+          label: '低速开始'
         }, {
           value: 'ease-out',
-          label: '抹出'
+          label: '低速结束'
         }, {
           value: 'ease-in-out',
-          label: '抹入抹出'
+          label: '低速开始和结束'
         }],
 
         sceneIndex: 0,
@@ -200,6 +203,14 @@
           label: '消失'
         }]
     	}
+    },
+    created() {
+      Object.keys(animations).forEach((key, index) => {
+        const pos = animations[key].findIndex(animation => animation.value === this.value.name)
+        if (pos > 0) {
+          this.sceneIndex = index
+        }
+      })
     }
   }
 </script>
@@ -210,6 +221,7 @@
       border: 1px solid $borderColor;
       border-radius: $borderRadius;
       margin-bottom: 10px;
+      background: lighten($borderColor, 7%);
     }
 
     @include E(title) {
@@ -230,7 +242,6 @@
     }
 
     @include E(options) {
-      background: lighten($borderColor, 7%);
       padding: 0px 10px;
       padding-top: 0px;
       .ui-row {

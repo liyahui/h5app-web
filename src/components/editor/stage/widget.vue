@@ -136,7 +136,7 @@
       // 设置文本高度
       setTextHeight() {
         this.setWidgetStyle({
-          height: this.$refs.input.offsetHeight
+          height: this.$refs.input.offsetHeight + this.widget.style.borderWidth * 2
         })
       },
 
@@ -174,6 +174,8 @@
           let animation = this.animations.shift()
           let name = animation.name.replace('$1', animation.direction)
           let { duration, timing, delay, count } = animation
+          count = count === 0 ? 1 : count
+
           this.$el.style.animation = `${name} ${duration}s ${timing} ${delay}s ${count} both`
         } else {
           this.$el.style.animation = ''
@@ -189,6 +191,7 @@
           this.$watch('widget.style.width', this.setTextHeight)
           this.$watch('widget.style.lineHeight', this.setTextHeight)
           this.$watch('widget.style.fontSize', this.setTextHeight)
+          this.$watch('widget.style.borderWidth', this.setTextHeight)
         }
 
         this.$el.addEventListener('webkitAnimationEnd', this.nextAnimation, false)

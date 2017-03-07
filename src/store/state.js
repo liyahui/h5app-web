@@ -13,6 +13,11 @@ export default {
     type: ''
   },
 
+  preview: {
+    visible: false,
+    project: {}
+  },
+
   h5app: extend(true, {}, h5app),
 
   cacheList: extend(true, {}, cacheList),

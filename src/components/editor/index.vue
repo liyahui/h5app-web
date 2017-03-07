@@ -6,7 +6,9 @@
       <stage></stage>
       <setting></setting>
     </div>
+    <preview></preview>
     <resource type="image"></resource>
+    <loading v-if="loading"></loading>
   </div>
 </template>
 
@@ -18,6 +20,8 @@
   import stage from './stage'
   import setting from './setting'
   import resource from './popup/resource'
+  import loading from './popup/loading'
+  import preview from '../preview'
 
   export default {
     components: {
@@ -25,7 +29,9 @@
       sidebar,
       stage,
       setting,
-      resource
+      resource,
+      preview,
+      loading
     },
     computed: {
       ...mapState(['h5app', 'user']),
@@ -45,14 +51,25 @@
         if (!project || project.uid !== this.user.id) {
           this.$router.push('/')
         }
+
+        this.loading = false
       },
       resetEditorState() {
         this.$store.commit(types.RESET_PROJECT)
+        this.$store.commit(types.PREVIEW_PROJECT, {
+          visible: false,
+          project: {}
+        })
       }
     },
     beforeRouteLeave(to, from, next) {
       this.resetEditorState()
       next()
+    },
+    data() {
+      return {
+        loading: true
+      }
     },
     created() {
       this.getProjectData()

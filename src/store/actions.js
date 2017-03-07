@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import * as types from 'store/types'
 import axios from 'axios'
+import { API_PATH } from 'utils'
 
-axios.defaults.baseURL = 'http://localhost:8888'
+axios.defaults.baseURL = API_PATH
 axios.defaults.headers.common['Authorization'] = localStorage.token
 
 export default {
@@ -129,6 +130,26 @@ export default {
     }
 
     Vue.$toast.show(res.data.message)
+  },
+
+  // 预览项目
+  async [types.PREVIEW_PROJECT]({ state, commit }) {
+    try {
+      const res = await axios.put(`projects/${state.h5app.id}`, {
+        preview: true
+      })
+
+      if (res.data.code === 0) {
+        commit(types.PREVIEW_PROJECT, {
+          visible: true
+        })
+      } else {
+        Vue.$toast.show(res.data.message)
+      }
+      
+    } catch(e) {
+      console.log(e)
+    }
   },
 
   // 获取指定类型列表数据

@@ -1,6 +1,7 @@
 // 编辑器视口宽高
 export const VIEWPORT_WIDTH = 320
 export const VIEWPORT_HEIGHT = 504
+export const dev = process.env === 'development'
 
 // 自动增加 px 的 css 属性
 export const autoPX = ['width', 'height', 'top', 'left', 'fontSize', 'borderRadius', 'borderWidth', 'minHeight']
@@ -30,6 +31,8 @@ export const setPrecision = (num, precision = 0) => {
 const undefinedValue = void 0
 export const isDefined = value => value !== undefinedValue
 
+export const isObject = o => typeof o === 'object' && o !== null
+
 // 等比例缩放
 export const sizeScale = ({ width, height }) => {
 	const maxWidth = VIEWPORT_WIDTH / 2
@@ -52,3 +55,6 @@ export const sizeScale = ({ width, height }) => {
   
   return size
 }
+
+export const API_PATH = dev ? 'http://localhost:8888' : 'http://liyahui.cn:8888'
+export const PREVIEW_PATH = dev ? 'http://localhost:8080' : 'http://liyahui.cn/h5app/show'

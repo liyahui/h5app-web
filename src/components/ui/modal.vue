@@ -88,7 +88,7 @@
     @include E(main) {
       background: #fff;
       position: absolute;
-      top: 100px;
+      top: 130px;
       left: 50%;
       width: 600px;
       margin-left: -300px;

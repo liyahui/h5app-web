@@ -1,5 +1,6 @@
+import Vue from 'vue'
 import * as types from 'store/types'
-import { PAGE_NAME, widgetNames, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, isDefined, sizeScale } from 'utils'
+import { PAGE_NAME, widgetNames, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, isDefined, sizeScale, isObject } from 'utils'
 import store from 'store'
 import extend from 'extend'
 import animationModel from 'models/animation/model'
@@ -29,15 +30,24 @@ const mutations = {
     state.pageID = payload.id
   },
 
-  // 设置页面名称
-  [types.SET_PAGE_NAME](state, { name }) {
-    store.getters.page.name = name
+  // 设置页面属性
+  [types.SET_PAGE](state, payload = {}) {
+    for (let key in payload) {
+      if (store.getters.page[key] && !isObject(payload[key])) {
+        store.getters.page[key] = payload[key]
+      } else {
+        Vue.set(store.getters.page, key, payload[key])
+      }
+    }
   },
 
   // 设置页面样式
   [types.SET_PAGE_BACKGROUND](state, payload) {
-    let page = store.getters.page
-    page.background = {...page.background, ...payload.background }
+    const page = store.getters.page
+    page.background = {
+      ...page.background, 
+      ...payload 
+    }
   },
 
   // 页面排序
@@ -269,6 +279,13 @@ const mutations = {
       const id = state.h5app.pages[0].id
       mutations[types.SET_PAGE_ID](state, { id })
     }
+  },
+
+  // 预览项目
+  [types.PREVIEW_PROJECT](state, payload = {}) {
+    const project = payload.project || state.h5app
+    state.preview.visible = payload.visible
+    state.preview.project = project
   },
 
   // 设置项目扩展属性

@@ -1,7 +1,7 @@
 <template>
   <div class="project-preview">
-  	<ui-modal :value="value" @input="$emit('input', false)" :title="data.title">
-			<iframe src="http://localhost:8888/" frameborder="0"></iframe>
+  	<ui-modal :value="preview.visible" @input="closePreview" :title="preview.project.title">
+			<iframe :src="iframeSrc" frameborder="0"></iframe>
 			<div class="project-preview__data">
 				
 			</div>
@@ -10,15 +10,29 @@
 </template>
 
 <script>
+	import * as types from 'store/types'
 	import { uiModal } from 'ui'
+	import { mapState } from 'vuex'
+	import { PREVIEW_PATH } from 'utils'
 
   export default {
-  	props: {
-  		value: Boolean,
-  		data: Object
-  	},
   	components: {
   		uiModal
+  	},
+  	computed: {
+  		...mapState(['preview']),
+
+  		iframeSrc() {
+  			return `${PREVIEW_PATH}/?id=${this.preview.project.id}`
+  		}
+  	},
+  	methods: {
+  		closePreview() {
+  			this.$store.commit(types.PREVIEW_PROJECT, {
+  				visible: false,
+  				project: {}
+  			})
+  		}
   	}
   }
 </script>

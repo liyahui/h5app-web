@@ -30,6 +30,16 @@
   	</div>
 
   	<hr>
+    
+    <page-effect 
+      :value="h5app.extends.effect"
+      @change="setProjectExtends('effect', $event)">
+    </page-effect>
+    <div class="properties__tips">
+      全局切换效果，每个页面可以单独设置切换效果
+    </div>
+
+    <hr>
 
   	<div class="properties__item">
       <ui-row>
@@ -43,15 +53,6 @@
 	      			@click="setProjectExtends('direction', direction.value)">
 	      		</ui-button>
         	</ui-button-group>
-        </ui-col>
-      </ui-row>
-    </div>
-
-  	<div class="properties__item">
-      <ui-row>
-        <ui-col :span="6">切换效果</ui-col>
-        <ui-col :span="18">
-        	<ui-select :options="changeEffects" :value="h5app.extends.effect"></ui-select>
         </ui-col>
       </ui-row>
     </div>
@@ -77,7 +78,8 @@
 <script>
 	import * as types from 'store/types'
 	import { mapState } from 'vuex'
-	import { uiRow, uiCol, uiButton, uiInput, uiSelect, uiButtonGroup } from 'ui'
+	import { uiRow, uiCol, uiButton, uiInput, uiButtonGroup } from 'ui'
+  import pageEffect from './page-effect'
 
   export default {
   	components: {
@@ -86,7 +88,7 @@
   		uiButton,
   		uiButtonGroup,
   		uiInput,
-  		uiSelect
+      pageEffect
   	},
   	computed: {
   		...mapState(['h5app'])
@@ -111,10 +113,6 @@
   	},
   	data() {
   		return {
-  			changeEffects: [{
-  				value: 'scroll',
-  				label: '默认'
-  			}],
   			slideDirections: [{
   				value: 'vertical',
   				label: '垂直'

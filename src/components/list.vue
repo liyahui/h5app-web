@@ -38,10 +38,7 @@
 				@change="projectList">
 			</ui-pagination>
   	</div>
-    <preview 
-      v-model="preview.visible"
-      :data="preview.data">
-    </preview>
+    <preview></preview>
   </div>
 </template>
 
@@ -108,23 +105,15 @@
         return item.title || `未命名${item.id}`
       },
       previewProject(item) {
-        this.preview.visible = true
-        this.preview.data.title = this.projectTitle(item)
+        this.$store.commit(types.PREVIEW_PROJECT, {
+          visible: true,
+          project: item
+        })
       }
   	},
   	async created() {
 			this.projectList()  		
-  	},
-    data() {
-      return {
-        preview: {
-          visible: false,
-          data: {
-            title: ''
-          }
-        }
-      }
-    }
+  	}
   }
 </script>
 

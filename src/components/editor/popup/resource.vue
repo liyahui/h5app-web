@@ -16,6 +16,9 @@
               <i class="iconfont icon-delete" @click="remove(item)"></i>
             </div>
           </div>
+          <div class="resource__empty" v-if="!data.list.length">
+            暂无图片
+          </div>
         </div>
         <hr>
       </template>
@@ -30,6 +33,9 @@
             </ui-pagination>
           </ui-col>
           <ui-col :span="12" justify="flex-end">
+            <div class="resource__tips">
+              一次最多上传10张图片，单张图片不能大于500K
+            </div>
             <div class="resource__btns">
               <ui-button type="primary">
                 上传图片
@@ -78,6 +84,10 @@
     },
   	methods: {
   		upload(e) {
+        if (e.target.files.length > 10) {
+          return this.$toast.show('最多上传10张图片')
+        }
+
         Array.from(e.target.files).forEach(file => {
           const data = new FormData()
           data.append('file', file)
@@ -199,6 +209,21 @@
           opacity: 0;
         }
       }
+    }
+
+    @include E(tips) {
+      font-size: 12px;
+      color: $grayLight;
+      line-height: 30px;
+    }
+
+    @include E(empty) {
+      color: $grayLight;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      font-size: 12px;
     }
 
     @include E(operate) {

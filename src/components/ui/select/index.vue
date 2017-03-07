@@ -37,7 +37,7 @@
   		},
       height: {
         type: Number,
-        default: 200
+        default: 212
       },
   		options: Array,
   		value: [Number, String],

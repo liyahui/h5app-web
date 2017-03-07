@@ -348,6 +348,11 @@
         margin-top: 4px;
       }
     }
+
+    @include E(tips) {
+      color: $grayLight;
+      font-size: 12px;
+    }
   }
 
   .ui-select__option--selected {

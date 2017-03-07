@@ -16,10 +16,7 @@
         fn && fn(e)
       },
       preview() {
-        this.$store.commit(types.PAGE_ANIMATION, { play: false })
-        this.$nextTick(() => {
-          this.$store.commit(types.PAGE_ANIMATION, { play: true })
-        })
+        this.$store.dispatch(types.PREVIEW_PROJECT)
       },
       save() {
         this.$store.dispatch(types.SAVE_PROJECT)

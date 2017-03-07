@@ -7,7 +7,7 @@ export default {
   	music: '',
 	  loop: true,
 	  direction: 'vertical',
-	  effect: 'scroll',
+	  effect: 'slide',
   },
   setting: false,
   pages: []

@@ -36,6 +36,11 @@
         </ui-col>
       </ui-row>
     </div>
+
+    <page-effect
+      :value="page.effect"
+      @change="setPage('effect', $event)">
+    </page-effect>
   </div>
 </template>
 
@@ -43,13 +48,15 @@
   import * as types from 'store/types'
 	import { mapGetters } from 'vuex'
 	import { uiColor, uiRow, uiCol, uiButton } from 'ui'
+  import pageEffect from './page-effect'
 
   export default {
   	components: {
   		uiColor,
   		uiRow,
   		uiCol,
-  		uiButton
+  		uiButton,
+      pageEffect
   	},
   	computed: {
   		...mapGetters(['page']),
@@ -63,11 +70,14 @@
   	methods: {
   		setPageBackground(key, value) {
         this.$store.commit(types.SET_PAGE_BACKGROUND, {
-          background: {
-            [key]: value
-          }
+          [key]: value
         })
   		},
+      setPage(key, value) {
+        this.$store.commit(types.SET_PAGE, {
+          [key]: value
+        })
+      },
       openResource() {
         this.$store.commit(types.RESOURCE_TARGET, {
           type: 'image',

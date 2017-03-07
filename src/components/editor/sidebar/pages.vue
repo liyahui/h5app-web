@@ -7,6 +7,7 @@
         :key="page.id" 
         :class="{'pages__item--active': page.id === pageID}"
         @mousedown="changePage(page.id)"
+        @click="playPageAnimation"
         @contextmenu.stop.prevent="showContextmenu">
         <div class="pages__viewport">
           <page :data="page" :operate="false"></page>
@@ -93,6 +94,12 @@
         } else {
           list.down.disable = false
         }
+      },
+      playPageAnimation() {
+        this.$store.commit(types.PAGE_ANIMATION, { play: false })
+        this.$nextTick(() => {
+          this.$store.commit(types.PAGE_ANIMATION, { play: true })
+        })
       }
     },
     created() {

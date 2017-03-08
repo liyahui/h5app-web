@@ -6,7 +6,7 @@
 					<img :src="h5app.icon" v-if="h5app.icon">
 				</div>
 				<div class="project-icon__operate">
-					<ui-button @click="openResource" type="primary" block>选择图标</ui-button>
+					<ui-button @click="openResource('image', 'project')" type="primary" block>选择图标</ui-button>
 					<ui-button block v-if="h5app.icon" @click="setProject('icon', '')">移除</ui-button>
 				</div>
 			</div>
@@ -30,16 +30,76 @@
   	</div>
 
   	<hr>
-    
+
+    <div class="properties__item">
+      <ui-row>
+        <ui-col :span="6">
+          背景颜色
+        </ui-col>
+        <ui-col :span="18">
+          <ui-color 
+            :empty="false"
+            :value="h5app.props.bgcolor"
+            @input="setProjectProps('bgcolor', $event)">
+          </ui-color>
+        </ui-col>
+      </ui-row>
+    </div>
+    <div class="properties__tips">
+      全局背景颜色，每个页面可以单独设置背景颜色
+    </div>
+
+    <hr>
+
     <page-effect 
-      :value="h5app.extends.effect"
-      @change="setProjectExtends('effect', $event)">
+      :value="h5app.props.effect"
+      @change="setProjectProps('effect', $event)">
     </page-effect>
     <div class="properties__tips">
       全局切换效果，每个页面可以单独设置切换效果
     </div>
 
     <hr>
+
+    <div class="properties__item">
+      <ui-row>
+        <ui-col :span="6">背景音乐</ui-col>
+        <template v-if="h5app.props.music.url">
+          <ui-col :span="10">
+            <ui-button 
+              block
+              key="2"
+              type="primary"
+              @click="openResource('music', true)">
+              <div class="properties__music-name">
+                {{h5app.props.music.name}}
+              </div>
+            </ui-button>
+          </ui-col>
+          <ui-col :span="3" :offset="1">
+            <ui-button 
+              block 
+              :icon="musicPlay ? 'stop' : 'triangle-right'" 
+              @click="toggleMusic">
+              <audio :src="h5app.props.music.url" ref="music"></audio>
+            </ui-button>
+          </ui-col>
+          <ui-col :span="3" :offset="1">
+            <ui-button block icon="trash" @click="clearMusic"></ui-button>
+          </ui-col>
+        </template>
+        <template v-else>
+          <ui-col :span="18">
+            <ui-button
+              block
+              key="1"
+              @click="openResource('music', true)">
+              选择音乐
+            </ui-button>
+          </ui-col>
+        </template>
+      </ui-row>
+    </div>
 
   	<div class="properties__item">
       <ui-row>
@@ -49,8 +109,8 @@
         		<ui-button 
 	      			v-for="direction in slideDirections"
 	      			v-text="direction.label"
-	      			:type="direction.value === h5app.extends.direction ? 'primary' : 'default'"
-	      			@click="setProjectExtends('direction', direction.value)">
+	      			:type="direction.value === h5app.props.direction ? 'primary' : 'default'"
+	      			@click="setProjectProps('direction', direction.value)">
 	      		</ui-button>
         	</ui-button-group>
         </ui-col>
@@ -65,8 +125,8 @@
         		<ui-button 
         			v-for="loop in loopOptions"
         			v-text="loop.label"
-        			:type="loop.value === h5app.extends.loop ? 'primary' : 'default'"
-        			@click="setProjectExtends('loop', loop.value)">
+        			:type="loop.value === h5app.props.loop ? 'primary' : 'default'"
+        			@click="setProjectProps('loop', loop.value)">
         		</ui-button>
         	</ui-button-group>
         </ui-col>
@@ -78,7 +138,7 @@
 <script>
 	import * as types from 'store/types'
 	import { mapState } from 'vuex'
-	import { uiRow, uiCol, uiButton, uiInput, uiButtonGroup } from 'ui'
+	import { uiRow, uiCol, uiButton, uiInput, uiButtonGroup, uiColor } from 'ui'
   import pageEffect from './page-effect'
 
   export default {
@@ -88,31 +148,47 @@
   		uiButton,
   		uiButtonGroup,
   		uiInput,
-      pageEffect
+      pageEffect,
+      uiColor
   	},
   	computed: {
-  		...mapState(['h5app'])
+  		...mapState(['h5app']),
   	},
   	methods: {
-  		openResource() {
-  			this.$store.commit(types.RESOURCE_TARGET, {
-  				type: 'image',
-  				target: 'project'
-  			})
+  		openResource(type, target) {
+  			this.$store.commit(types.RESOURCE_TARGET, { type, target })
   		},
   		setProject(key, value) {
   			this.$store.commit(types.SET_PROJECT, {
   				[key]: value
   			})
   		},
-  		setProjectExtends(key, value) {
-  			this.$store.commit(types.SET_PROJECT_EXTENDS, {
+  		setProjectProps(key, value) {
+  			this.$store.commit(types.SET_PROJECT_PROPS, {
   				[key]: value
   			})
-  		}
+  		},
+      toggleMusic() {
+        this.$nextTick(() => {
+          if (this.musicPlay) {
+            this.musicPlay = false
+            this.$refs.music.pause()
+          } else {
+            this.musicPlay = true
+            this.$refs.music.pause()
+            this.$refs.music.play()
+          }
+        })
+      },
+      clearMusic() {
+        this.setProjectProps('music', '')
+        this.musicPlay = false
+        this.$refs.music.pause()
+      }
   	},
   	data() {
   		return {
+        musicPlay: false,
   			slideDirections: [{
   				value: 'vertical',
   				label: '垂直'
@@ -162,4 +238,23 @@
 			}
 		}
 	}
+
+  @include B(properties) {
+    .icon-trash {
+      font-size: 20px;
+      margin-left: -5px;
+    }
+
+    .icon-stop {
+      margin-left: -1px;
+    }
+
+    @include E(music-name) {
+      width: 90px;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
 </style>

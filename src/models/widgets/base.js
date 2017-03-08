@@ -20,6 +20,12 @@ export default {
 
   animations: [],
 
+  event: {
+    name: '',
+    target: '',
+    value: ''
+  },
+
   state: {
     visible: true,
     resize: true,

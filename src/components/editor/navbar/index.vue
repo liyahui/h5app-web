@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-  	<div class="navbar__brand"></div>
+  	<router-link class="navbar__brand" to="/projects"></router-link>
     <div class="navbar__widgets">
       <widgets></widgets>
     </div>

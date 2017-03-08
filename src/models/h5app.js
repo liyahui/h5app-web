@@ -3,11 +3,15 @@ export default {
   title: '',
   desc: '',
   icon: '',
-  extends: {
-  	music: '',
+  props: {
+  	music: {
+      name: '',
+      url: ''
+    },
 	  loop: true,
 	  direction: 'vertical',
 	  effect: 'slide',
+    bgcolor: '#fafafa',
   },
   setting: false,
   pages: []

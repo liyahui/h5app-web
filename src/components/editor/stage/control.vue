@@ -45,10 +45,7 @@
       mouseDown(e, dir, split) {
       	this.$emit('mousedown', e)
         
-        e.preventDefault()
-
         this.updateOuterRect()
-
         
         direction = split ? dir.split('') : [dir]
 
@@ -62,6 +59,8 @@
       },
 
       mouseMove(e) {
+        e.preventDefault()
+        
         direction.forEach(dir => {
           dir = dir === '' ? 'dragMove' : `${dir}Resize`
           this[dir](e)

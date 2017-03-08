@@ -215,13 +215,70 @@
         </ui-col>
 	    </ui-row>
 	  </div>
+    
+    <hr>
+    <div class="properties__item">
+      <ui-row>
+        <ui-col :span="4">事件</ui-col>
+        <ui-col :span="7">
+          <ui-select 
+            :clear="true"
+            :value="widget.event.name"
+            :options="eventNameOptions"
+            @change="setWidgetEvent('name', $event)">
+          </ui-select>
+        </ui-col>
+        <ui-col :span="12" :offset="1">
+          <ui-select 
+            :clear="true"
+            :value="widget.event.target"
+            :options="eventTargetOptions"
+            @change="setWidgetEvent('target', $event)">
+          </ui-select>
+        </ui-col>
+      </ui-row>
+    </div>
+    <div class="properties__item" v-if="widget.event && widget.event.target">
+      <ui-row>
+        <ui-col :span="4"></ui-col>
+        <ui-col :span="20">
+          <ui-input 
+            placeholder="输入电话号码"
+            v-if="widget.event.target === 'tel'"
+            :value="widget.event.value"
+            @input="setWidgetEvent('value', $event)">
+          </ui-input>
+
+          <ui-input 
+            placeholder="输入链接地址"
+            :value="widget.event.value"
+            v-if="widget.event.target === 'link'"
+            @input="setWidgetEvent('value', $event)">
+          </ui-input>
+
+          <ui-select 
+            placeholder="选择跳转的页面"
+            v-if="widget.event.target === 'page'"
+            :value="widget.event.value"
+            :clear="true"
+            @change="setWidgetEvent('value', $event)">
+            <ui-option 
+              v-for="page in h5app.pages"
+              v-if="page.id !== pageID"
+              :label="page.name"
+              :value="page.id">
+            </ui-option>
+          </ui-select>
+        </ui-col>
+      </ui-row>
+    </div>
   </div>
 </template>
 
 <script>
 	import * as types from 'store/types'
-  import { mapGetters } from 'vuex'
-  import { uiNumber, uiRange, uiColor, uiRow, uiCol, uiButton, uiButtonGroup, uiSelect, uiOption } from 'ui'
+  import { mapGetters, mapState } from 'vuex'
+  import { uiNumber, uiRange, uiColor, uiRow, uiCol, uiButton, uiButtonGroup, uiSelect, uiOption, uiInput } from 'ui'
   import rangeInput from './range-input'
 
   export default {
@@ -235,10 +292,13 @@
   		uiButtonGroup,
   		uiSelect,
   		uiOption,
-  		rangeInput
+      uiInput,
+  		rangeInput,
   	},
   	computed: {
       ...mapGetters(['widget']),
+      ...mapState(['h5app', 'pageID']),
+
       style() {
         return this.widget.style
       },
@@ -290,7 +350,15 @@
     		this.$store.commit(types.SET_WIDGET_POSITION, {
     			value
     		})
-    	}
+    	},
+      setWidgetEvent(key, value) {
+        if (key === 'target') {
+          this.setWidgetEvent('value', '')
+        }
+        this.$store.commit(types.SET_WIDGET_EVENT, {
+          [key]: value
+        })
+      }
     },
     data() {
     	return {
@@ -324,7 +392,21 @@
         	top: '顶对齐',
         	middle: '居中',
         	bottom: '底对齐'
-        }
+        },
+        eventNameOptions: [{
+          value: 'tap',
+          label: '点击'
+        }],
+        eventTargetOptions: [{
+          value: 'page',
+          label: '切换页面'
+        }, {
+          value: 'link',
+          label: '跳转链接'
+        }, {
+          value: 'tel',
+          label: '拨打电话'
+        }]
     	}
     }
   }

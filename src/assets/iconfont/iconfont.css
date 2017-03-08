@@ -123,6 +123,10 @@
   content: "\e645";
 }
 
+.icon-stop:before {
+  content: "\e712";
+}
+
 .icon-preview:before {
   content: "\e619";
 }
@@ -133,6 +137,10 @@
 
 .icon-button:before {
   content: "\e657";
+}
+
+.icon-pause:before {
+  content: "\e6ec";
 }
 
 .icon-bg:before {

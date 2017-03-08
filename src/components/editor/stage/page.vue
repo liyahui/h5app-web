@@ -147,7 +147,6 @@
 		position: relative;
 		width: $viewportWidth;
     height: $viewportHeight;
-    background: #fafafa;
     position: absolute;
     left: 0px;
     top: 0px;

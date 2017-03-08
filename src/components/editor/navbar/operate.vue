@@ -16,7 +16,9 @@
         fn && fn(e)
       },
       preview() {
-        this.$store.dispatch(types.PREVIEW_PROJECT)
+        this.$store.commit(types.PREVIEW_PROJECT, {
+          visible: true
+        })
       },
       save() {
         this.$store.dispatch(types.SAVE_PROJECT)

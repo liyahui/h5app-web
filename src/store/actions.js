@@ -9,17 +9,21 @@ axios.defaults.headers.common['Authorization'] = localStorage.token
 export default {
   // 上传资源
   async [types.UPLOAD_RESOURCE]({ commit }, { type, data }) {
-    const res = await axios.post(type, data)
+    const res = await axios.post(`resources/${type}`, data)
 
-    commit(types.ADD_CACHE_LIST, {
-      type,
-      item: res.data.item
-    })
+    if (res.data.code === 0) {
+      commit(types.ADD_CACHE_LIST, {
+        type,
+        item: res.data.resource
+      })
+    } else {
+      Vue.$toast.show(res.data.message)
+    }
   },
 
   // 删除资源
   async [types.DELETE_RESOURCE]({ commit }, { type, item }) {
-    const res = await axios.delete(`${type}/${item.id}`)
+    const res = await axios.delete(`resources/${type}/${item.id}`)
 
     if (res.data.code === 0) {
       commit(types.DELETE_CACHE_LIST, { type, item })
@@ -61,7 +65,7 @@ export default {
       params.id = payload.item.id
     } else {
       params.pages = state.h5app.pages
-      params.extends = state.h5app.extends
+      params.props = state.h5app.props
     }
 
     const res = await axios.post('projects', params)
@@ -94,8 +98,15 @@ export default {
     const res = await axios.get(`projects/${id}`)
 
     if (res.data.code === 0) {
-      const { title, desc, icon, pages } = res.data.project
-      commit(types.SET_PROJECT, res.data.project)
+      const { id, title, desc, icon, pages, props } = res.data.project
+      commit(types.SET_PROJECT, {
+        id,
+        title,
+        desc,
+        icon,
+        pages,
+        props
+      })
     } else {
       Vue.$toast.show(res.data.message)
     }
@@ -113,10 +124,10 @@ export default {
     const item = {
       title: state.h5app.title,
       desc: state.h5app.desc,
-      icon: state.h5app.desc,
+      icon: state.h5app.icon,
       cover: cover,
       pages: state.h5app.pages,
-      extends: state.h5app.extends
+      props: state.h5app.props
     }
 
     const res = await axios.put(`projects/${state.h5app.id}`, item)
@@ -130,26 +141,6 @@ export default {
     }
 
     Vue.$toast.show(res.data.message)
-  },
-
-  // 预览项目
-  async [types.PREVIEW_PROJECT]({ state, commit }) {
-    try {
-      const res = await axios.put(`projects/${state.h5app.id}`, {
-        preview: true
-      })
-
-      if (res.data.code === 0) {
-        commit(types.PREVIEW_PROJECT, {
-          visible: true
-        })
-      } else {
-        Vue.$toast.show(res.data.message)
-      }
-      
-    } catch(e) {
-      console.log(e)
-    }
   },
 
   // 获取指定类型列表数据

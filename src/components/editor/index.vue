@@ -8,6 +8,7 @@
     </div>
     <preview></preview>
     <resource type="image"></resource>
+    <resource type="music"></resource>
     <loading v-if="loading"></loading>
   </div>
 </template>

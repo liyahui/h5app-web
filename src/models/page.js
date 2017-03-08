@@ -6,7 +6,7 @@ export default {
 	enable: true,
 	effect: '',
   background: {
-  	color: '#fafafa',
+  	color: 'transparent',
   	image: ''
   },
 	widgets: []

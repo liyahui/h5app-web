@@ -1,7 +1,18 @@
 export default {
   image: {
     init: false,
-    path: 'image',
+    path: 'resources/image',
+    params: {},
+    target: false,
+    total: 0,
+    list: [],
+    cache: [],
+    size: 24,
+    page: 1
+  },
+  music: {
+    init: false,
+    path: 'resources/music',
     params: {},
     target: false,
     total: 0,

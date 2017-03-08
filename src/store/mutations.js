@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import * as types from 'store/types'
 import { PAGE_NAME, widgetNames, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, isDefined, sizeScale, isObject } from 'utils'
 import store from 'store'
@@ -32,11 +31,10 @@ const mutations = {
 
   // 设置页面属性
   [types.SET_PAGE](state, payload = {}) {
+    const page = store.getters.page
     for (let key in payload) {
-      if (store.getters.page[key] && !isObject(payload[key])) {
-        store.getters.page[key] = payload[key]
-      } else {
-        Vue.set(store.getters.page, key, payload[key])
+      if (!isObject(payload[key])) {
+        page[key] = payload[key]
       }
     }
   },
@@ -45,8 +43,8 @@ const mutations = {
   [types.SET_PAGE_BACKGROUND](state, payload) {
     const page = store.getters.page
     page.background = {
-      ...page.background, 
-      ...payload 
+      ...page.background,
+      ...payload
     }
   },
 
@@ -249,6 +247,20 @@ const mutations = {
     store.getters.widget.content = content
   },
 
+  // 设置组件事件
+  [types.SET_WIDGET_EVENT](state, payload) {
+    const widget = store.getters.widget
+    widget.event = { ...widget.event, ...payload }
+
+    if (!widget.event.name) {
+      widget.event.target = ''
+    }
+
+    if (!widget.event.target) {
+      widget.event.value = ''
+    }
+  },
+
   // 打开/关闭指定资源
   [types.RESOURCE_TARGET](state, { type, target }) {
     const data = state.cacheList[type]
@@ -271,13 +283,22 @@ const mutations = {
 
   // 设置当前编辑的项目数据
   [types.SET_PROJECT](state, payload) {
-    state.h5app = { ...state.h5app, ...payload }
+    state.h5app = extend(true, {}, state.h5app, payload)
 
-    if (state.h5app.pages.length === 0) {
-      mutations[types.ADD_PAGE](state)
-    } else {
-      const id = state.h5app.pages[0].id
-      mutations[types.SET_PAGE_ID](state, { id })
+    if (payload.pages) {
+      if (state.h5app.pages.length === 0) {
+        mutations[types.ADD_PAGE](state)
+      } else if (state.h5app.pages.length > 0) {
+        state.h5app.pages = state.h5app.pages.map(page => {
+          page.widgets = page.widgets.map(widget => {
+            return extend(true, {}, widgetModels[widget.type], widget)
+          })
+          return page
+        })
+
+        const id = state.h5app.pages[0].id
+        mutations[types.SET_PAGE_ID](state, { id })
+      }
     }
   },
 
@@ -289,9 +310,9 @@ const mutations = {
   },
 
   // 设置项目扩展属性
-  [types.SET_PROJECT_EXTENDS](state, payload) {
-    state.h5app.extends = {
-      ...state.h5app.extends,
+  [types.SET_PROJECT_PROPS](state, payload) {
+    state.h5app.props = {
+      ...state.h5app.props,
       ...payload
     }
   },
@@ -305,7 +326,7 @@ const mutations = {
   },
 
   // 重置缓存列表
-  [types.RESET_CACHE_LIST] (state) {
+  [types.RESET_CACHE_LIST](state) {
     state.cacheList = extend(true, {}, cacheListModel)
   },
 
@@ -327,7 +348,7 @@ const mutations = {
   },
 
   // 指定类型缓存列表添加一项
-  [types.ADD_CACHE_LIST](state, {type, item}) {
+  [types.ADD_CACHE_LIST](state, { type, item }) {
     const data = state.cacheList[type]
     data.cache.unshift(item)
     data.total += 1

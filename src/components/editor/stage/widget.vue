@@ -1,8 +1,10 @@
 <template>
   <div 
     class="widget"
+    :tabindex="widget.id"
     :class="{'widget--focus': widget.state.focus}" 
-    :style="outerStyle">
+    :style="outerStyle"
+    @keydown="handleKeyEvent">
 
     <div 
       class="widget__main"
@@ -47,6 +49,7 @@
   import { mapState } from 'vuex'
   import { autoPX } from 'utils'
   import control from './control'
+  import keyCodes from 'utils/keyCodes'
 
   export default {
   	props: {
@@ -180,7 +183,43 @@
         } else {
           this.$el.style.animation = ''
         }
-      }
+      },
+
+      keyUp() {
+        this.setWidgetStyle({
+          top: this.widget.style.top - 1
+        })
+      },
+      keyDown() {
+        this.setWidgetStyle({
+          top: this.widget.style.top + 1
+        })
+      },
+      handleKeyEvent(e) {
+        const step = e.shiftKey ? 10 : 1
+        let left = this.widget.style.left
+        let top = this.widget.style.top
+
+        switch (e.keyCode) {
+          case keyCodes.up:
+            top -= step
+            break
+          case keyCodes.down:
+            top += step
+            break
+          case keyCodes.left:
+            left -= step
+            break
+          case keyCodes.right:
+            left += step
+            break
+        }
+
+        this.setWidgetStyle({
+          left,
+          top
+        })
+      }      
     },
     mounted() {
       if (this.operate) {

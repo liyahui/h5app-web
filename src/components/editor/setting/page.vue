@@ -36,11 +36,17 @@
         </ui-col>
       </ui-row>
     </div>
+    
+    <hr>
 
     <page-effect
+      :clear="true"
       :value="page.effect"
       @change="setPage('effect', $event)">
     </page-effect>
+    <div class="properties__tips">
+      默认使用全局设置的切换效果
+    </div>
   </div>
 </template>
 

@@ -6,6 +6,7 @@
         <ui-select 
         	:options="options" 
       		:value="value"
+      		:clear="clear"
       		@change="handleChange">
     		</ui-select>
       </ui-col>
@@ -18,7 +19,11 @@
 
   export default {
   	props: {
-  		value: [String, Number]
+  		value: [String, Number],
+  		clear: {
+  			type: Boolean,
+  			default: false
+  		}
   	},
   	components: {
   		uiRow,
@@ -38,9 +43,6 @@
 				}, {
 				  value: 'push',
 				  label: '推压'
-				}, {
-				  value: 'extract',
-				  label: '抽取'
 				}, {
 				  value: 'rotate',
 				  label: '旋转',

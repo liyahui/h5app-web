@@ -116,7 +116,7 @@
   				name: '帐号',
   				value: 'liyahui',
   				error: '',
-  				min: 6,
+  				min: 4,
   				max: 18
   			},
   			password: {

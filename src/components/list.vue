@@ -7,6 +7,9 @@
 	  		<div class="project-list__img">
 	  			<img :src="item.cover" v-if="item.cover">
           <div class="project-operate">
+            <div class="project-operate__qrcode">
+              <img :src="qrcodeURL(item)" alt="">
+            </div>
             <div class="project-operate__item"> 
               <i class="iconfont icon-eye" @click="previewProject(item)"></i>
               预览
@@ -29,6 +32,9 @@
         </div>
         <div class="project-list__title" v-text="projectTitle(item)"></div>
 	  	</div>
+      <div class="project-list__empty" v-if="!project.list.length">
+        暂无作品，点击右上角创建
+      </div>
 	  </div>
   	<div class="project-list__foot">
 			<ui-pagination 
@@ -47,6 +53,7 @@
 	import { mapState } from 'vuex'
 	import { uiPagination } from 'ui'
   import preview from './preview'
+  import { PREVIEW_PATH } from 'utils'
 
   export default {
   	components: {
@@ -109,6 +116,9 @@
           visible: true,
           project: item
         })
+      },
+      qrcodeURL(item) {
+        return `http://qr.liantu.com/api.php?text=${PREVIEW_PATH}?id=${item.id}`
       }
   	},
   	async created() {
@@ -161,6 +171,13 @@
 		@include E(foot) {
 			margin-top: 24px;
 		}
+
+    @include E(empty) {
+      text-align: center;
+      font-size: 12px;
+      color: $grayLight;
+      padding: 50px 0px;
+    }
 	}
 
   @include B(project-operate) {
@@ -197,6 +214,17 @@
         align-items: center;
       }
     }
+
+    @include E(qrcode) {
+      position: absolute;
+      left: 0px;
+      top: 25px;
+      padding: 10px;
+      img {
+        border-radius: $borderRadius;
+        display: block;
+      }
+    }
   }
 
   .project-list__item:hover {
@@ -206,6 +234,10 @@
 
     .project-operate__item {
       animation: fadeInUp 0.5s both;
+    }
+
+    .project-operate__qrcode {
+      animation: zoomIn 0.5s both;
     }
   }
 </style>

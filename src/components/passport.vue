@@ -102,7 +102,7 @@
         this.validate('username')
         this.validate('password')
 
-        if (this.username.error && this.password.error) return
+        if (this.username.error || this.password.error) return
 
         this.$store.dispatch(types.SET_USER, {
           username: this.username.value,

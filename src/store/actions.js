@@ -151,12 +151,16 @@ export default {
     const limit = data.size
     const offset = (page - 1) * limit
     const end = Math.min(offset + limit, data.total)
-    let existCache = end >= offset
+    let existCache = end > offset
 
     for (let i = offset; i < end; i++) {
       if (!data.cache[i]) {
         existCache = false
       }
+    }
+
+    if (data.init && data.total === 0) {
+      existCache = true
     }
 
     if (existCache) {

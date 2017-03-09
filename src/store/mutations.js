@@ -334,6 +334,7 @@ const mutations = {
   [types.SET_CACHE_LIST](state, { type, list, total, page, offset }) {
     const data = state.cacheList[type]
 
+    data.init = true
     data.list = list
     data.page = page
 

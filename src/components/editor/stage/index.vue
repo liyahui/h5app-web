@@ -97,6 +97,7 @@
   .stage__mask--right {
     width: $widthLR;
     height: 100%;
+    top: 0px;
   }
 
   .stage__mask--left {
@@ -111,6 +112,7 @@
   .stage__mask--bottom {
     width: $viewportWidth;
     height: $heightTB;
+    left: $widthLR;
   }
 
   .stage__mask--top {

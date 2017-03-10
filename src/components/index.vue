@@ -54,5 +54,7 @@
 <style lang="sass">
   .index {
     padding-top: 50px;
+    height: 100%;
+    overflow: hidden;
   }
 </style>

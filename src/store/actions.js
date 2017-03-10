@@ -137,7 +137,7 @@ export default {
 
     if (res.data.code === 0) {
       item.id = state.h5app.id
-      item.uid = state.h5app.uid
+      item.uid = state.user.id
       item.cover = res.data.cover
       commit(types.UPDATE_CACHE_LIST, { type: 'show', item })
       commit(types.UPDATE_CACHE_LIST, { type: 'user', item })

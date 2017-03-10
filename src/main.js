@@ -22,7 +22,6 @@ const router = new VueRouter({ routes })
 
 router.beforeEach((to, from, next) => {
   const user = store.state.user
-  console.log(to.meta)
   if (to.path !== '/' && !user && to.meta.auth !== false) {
     return next('/')
   }

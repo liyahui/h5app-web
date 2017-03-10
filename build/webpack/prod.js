@@ -9,8 +9,6 @@ import config from '../config'
 import shell from 'shelljs'
 import { cssLoads, img, html, postcss } from './util'
 
-process.env.NODE_ENV = 'production'
-
 shell.rm('-rf', config.dist)
 
 const cssFiles = {

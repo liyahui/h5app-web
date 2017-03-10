@@ -181,6 +181,7 @@
       font-size: 12px;
       color: $grayLight;
       padding: 50px 0px;
+      animation: fadeIn 0.5s;
     }
 	}
 

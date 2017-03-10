@@ -100,11 +100,11 @@ const mutations = {
 
     if (payload.copy) {
       widget.name = widgetNames[widget.type.toUpperCase()]
+    } else {
+      const size = sizeScale(widget.style)
+      widget.style.width = size.width
+      widget.style.height = size.height
     }
-
-    const size = sizeScale(widget.style)
-    widget.style.width = size.width
-    widget.style.height = size.height
 
     widget.name += widget.id
     widgets.push(widget)

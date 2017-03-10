@@ -32,7 +32,7 @@
         </div>
         <div class="project-list__title" v-text="projectTitle(item)"></div>
 	  	</div>
-      <div class="project-list__empty" v-if="!project.list.length">
+      <div class="project-list__empty" v-if="!project.list.length && project.init">
         暂无作品，点击右上角创建
       </div>
 	  </div>

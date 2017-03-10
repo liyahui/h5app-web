@@ -3,7 +3,8 @@
     <div class="center">
       <div class="header__nav">
         <ul>
-          <li><router-link to="/" exact>作品展示</router-link></li>
+          <li><router-link to="/" exact>首页</router-link></li>
+          <li><router-link to="/cases" exact>案例展示</router-link></li>
           <li><router-link to="/projects" v-if="user">我的作品</router-link></li>
         </ul>
       </div>
@@ -52,6 +53,7 @@
     position: fixed;
     left: 0px;
     top: 0px;
+    z-index: 999;
 
     .center {
       display: flex;

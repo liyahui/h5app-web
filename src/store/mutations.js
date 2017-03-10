@@ -1,5 +1,6 @@
 import * as types from 'store/types'
 import { PAGE_NAME, widgetNames, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, isDefined, sizeScale, isObject } from 'utils'
+import axios from 'axios'
 import store from 'store'
 import extend from 'extend'
 import animationModel from 'models/animation/model'
@@ -250,7 +251,7 @@ const mutations = {
   // 设置组件事件
   [types.SET_WIDGET_EVENT](state, payload) {
     const widget = store.getters.widget
-    widget.event = { ...widget.event, ...payload }
+    widget.event = {...widget.event, ...payload }
 
     if (!widget.event.name) {
       widget.event.target = ''
@@ -276,8 +277,13 @@ const mutations = {
   [types.SET_USER](state, { user, token }) {
     state.user = user
 
-    if (isDefined(token)) {
-      localStorage.token = token
+    if (token) {
+      localStorage.setItem('token', token)
+    }
+
+    if (user === null) {
+      localStorage.removeItem('token')
+      axios.defaults.headers.common['Authorization'] = ''
     }
   },
 

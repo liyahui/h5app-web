@@ -3,7 +3,8 @@
   	<div class="clearfix">
 	  	<div 
         class="project-list__item" 
-        v-for="item in project.list">
+        v-for="item in project.list"
+        :key="type + item.id">
 	  		<div class="project-list__img">
 	  			<img :src="item.cover" v-if="item.cover">
           <div class="project-operate">
@@ -14,7 +15,7 @@
               <i class="iconfont icon-eye" @click="previewProject(item)"></i>
               预览
             </div>
-            <div class="project-operate__item" v-if="user" @click="copyProject(item)"> 
+            <div class="project-operate__item" @click="copyProject(item)"> 
               <i class="iconfont icon-copy"></i>
               复制
             </div>
@@ -37,12 +38,14 @@
       </div>
 	  </div>
   	<div class="project-list__foot">
-			<ui-pagination 
-				:size="project.size" 
-				:total="project.total" 
-				:current="project.page"
-				@change="projectList">
-			</ui-pagination>
+      <transition name="page">
+  			<ui-pagination 
+  				:size="project.size" 
+  				:total="project.total" 
+  				:current="project.page"
+  				@change="projectList">
+  			</ui-pagination>
+      </transition>
   	</div>
     <preview></preview>
   </div>
@@ -129,6 +132,7 @@
 
 <style lang="sass">
 	@include B(project-list) {
+    margin-top: 20px;
 
 		@include E(item) {
 			width: 180px;
@@ -169,7 +173,7 @@
 		}
 
 		@include E(foot) {
-			margin-top: 24px;
+			margin-top: 50px;
 		}
 
     @include E(empty) {
@@ -239,5 +243,19 @@
     .project-operate__qrcode {
       animation: zoomIn 0.5s both;
     }
+  }
+
+  @for $i from 1 through 5 {
+    .project-list__item:nth-child(#{$i}) {
+      animation: zoomIn 0.5s #{$i * 0.1s} both;
+    }
+  }
+
+  .page-enter-active {
+    animation: fadeInUp 0.5s;
+  }
+
+  .page-leave-active {
+    animation: fadeOutDown 0.5s;
   }
 </style>

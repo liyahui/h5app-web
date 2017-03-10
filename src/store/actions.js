@@ -4,7 +4,7 @@ import axios from 'axios'
 import { API_PATH } from 'utils'
 
 axios.defaults.baseURL = API_PATH
-axios.defaults.headers.common['Authorization'] = localStorage.token
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
 export default {
   // 上传资源
@@ -78,7 +78,10 @@ export default {
       })
       return res.data.project
     } else {
-      Vue.$toast.show(res.data.message)
+      commit(types.SET_PASSPORT, {
+        type: 'login',
+        visible: true
+      })
     }
   },
 

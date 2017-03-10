@@ -2,7 +2,6 @@ export default {
   image: {
     init: false,
     path: 'resources/image',
-    params: {},
     target: false,
     total: 0,
     list: [],
@@ -13,7 +12,6 @@ export default {
   music: {
     init: false,
     path: 'resources/music',
-    params: {},
     target: false,
     total: 0,
     list: [],
@@ -23,23 +21,20 @@ export default {
   },
   show: {
     init: false,
-    path: 'projects',
+    path: 'projects/show',
     params: {},
     total: 0,
     page: 1,
-    size: 10,
+    size: 5,
     list: [],
     cache: []
   },
   user: {
     init: false,
-    path: 'projects',
-    params: {
-      user: true
-    },
+    path: 'projects/user',
     total: 0,
     page: 1,
-    size: 10,
+    size: 5,
     list: [],
     cache: []
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="page" :class="{'is-operate': operate}">
     <div class="page__bg" v-if="data.background" :style="bgStyle"></div>
 
   	<widget 
@@ -150,6 +150,11 @@
     position: absolute;
     left: 0px;
     top: 0px;
+    overflow: hidden;
+
+    &.is-operate {
+      overflow: visible;
+    }
     
     @include E(bg) {
       position: absolute;

@@ -32,11 +32,3 @@ router.beforeEach((to, from, next) => {
 store.dispatch(types.GET_USER).then(() => {
   new Vue({ store, router }).$mount('.h5app')
 })
-
-var _hmt = _hmt || []
-(function() {
-  var hm = document.createElement("script")
-  hm.src = "https://hm.baidu.com/hm.js?07512a955b5236e402a03059fd6bdc72"
-  var s = document.getElementsByTagName("script")[0]
-  s.parentNode.insertBefore(hm, s)
-})()

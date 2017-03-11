@@ -33,6 +33,7 @@ options.resolve = {
 }
 
 options.module = {
+  noParse: [/html2canvas/],
   loaders: [{
     test: /\.vue$/,
     loader: 'vue'

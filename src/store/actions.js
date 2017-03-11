@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import * as types from 'store/types'
+import html2canvas from 'html2canvas'
 import axios from 'axios'
 import { API_PATH } from 'utils'
 

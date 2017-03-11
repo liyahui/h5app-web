@@ -1,10 +1,10 @@
 <template>
   <div class="project-preview">
   	<ui-modal :value="preview.visible" @input="closePreview" :title="preview.project.title">
-			<iframe :src="iframeSrc" frameborder="0"></iframe>
-			<div class="project-preview__data">
-				
-			</div>
+			<iframe :src="appShowURL" frameborder="0"></iframe>
+			<template slot="foot">
+				预览地址：{{appShowURL}}
+			</template>
   	</ui-modal>
   </div>
 </template>
@@ -22,7 +22,7 @@
   	computed: {
   		...mapState(['preview']),
 
-  		iframeSrc() {
+  		appShowURL() {
   			return `${PREVIEW_PATH}/?id=${this.preview.project.id}`
   		}
   	},
@@ -49,7 +49,7 @@
 			width: 375px;
 			margin-left: -187.5px;
 			top: 50%;
-			margin-top: -315.315px;
+			margin-top: -335px;
 		}
 
 		.ui-modal__body {
@@ -63,7 +63,10 @@
 		}
 
 		.ui-modal__foot {
-			display: none;
+			padding: 10px;
+			background: #d9d9d9;
+			-webkit-user-select: text;
+			user-select: text;
 		}
 	}
 </style>

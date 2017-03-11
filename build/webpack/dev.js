@@ -6,7 +6,7 @@ import options from './base'
 import config from '../config'
 import { css, img, html, postcss, localIP } from './util'
 
-const host = localIP() || '127.0.0.1'
+const host = 'localhost'
 const port = 2017
 const url = `http://${host}:${port}`
 

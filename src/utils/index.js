@@ -52,9 +52,9 @@ export const sizeScale = ({ width, height }) => {
   } else {
     size.width = parseInt(width * size.height / height)
   }
-  
+
   return size
 }
 
-export const API_PATH = dev ? 'http://localhost:8888' : 'http://liyahui.cn:8888'
+export const API_PATH = dev ? 'http://localhost:8888' : 'http://liyahui.cn/h5app'
 export const PREVIEW_PATH = dev ? 'http://localhost:8080' : 'http://liyahui.cn/h5app/show'
